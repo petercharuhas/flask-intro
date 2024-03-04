@@ -1,0 +1,59 @@
+Greet:
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route('/greet')
+def greet():
+    return "Hello!"
+
+@app.route('/greet/welcome')
+def welcome():
+    return "Welcome!"
+
+@app.route('/greet/welcome/home')
+def welcome_home():
+    return "Welcome home!"
+
+
+
+Calc:
+from flask import Flask, request
+
+# Assuming the operations are defined in the same file for simplicity
+def add(a, b):
+    return a + b
+
+def sub(a, b):
+    return a - b
+
+def mult(a, b):
+    return a * b
+
+def div(a, b):
+    return a / b
+
+app = Flask(__name__)
+
+@app.route("/calculate")
+def calculate():
+    """Perform an arithmetic operation on a and b."""
+    operation = request.args.get("operation")
+    a = int(request.args.get("a"))
+    b = int(request.args.get("b"))
+
+    if operation == "add":
+        result = add(a, b)
+    elif operation == "sub":
+        result = sub(a, b)
+    elif operation == "mult":
+        result = mult(a, b)
+    elif operation == "div":
+        result = div(a, b)
+    else:
+        return "Invalid operation"
+
+    return str(result)
+
+if __name__ == "__main__":
+    app.run(debug=True)
